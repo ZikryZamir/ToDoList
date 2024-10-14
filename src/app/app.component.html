@@ -1,0 +1,32 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div id="webcrumbs"> 
+  <div class="w-[500px] rounded-lg shadow-lg bg-neutral-50 p-6">
+    <h1 class="text-2xl font-title mb-4">To-Do List</h1>
+    
+    <form class="mb-6 flex space-x-4">
+      <input [value]="newTodotext()"
+      (input)="handleInput($event)"
+      type="text" class="flex-grow p-3 rounded-md bg-neutral-100" placeholder="Add a new task"/>
+      <button (click)="addTodo()" class="bg-primary text-neutral-50 rounded-md px-6 h-[48px]">Add</button>
+    </form>
+  
+    <ul class="space-y-4">
+      <li *ngFor="let todo of todos()" class="flex justify-between items-center bg-neutral-100 p-3 rounded-md">
+        <div class="flex items-center space-x-3">
+          <input *ngIf="!todo.isEditing" (click)="toggleCompleted(todo)" [(ngModel)]="todo.done" type="checkbox" class="rounded-md" />
+          <span *ngIf="!todo.isEditing" [ngClass]="{'line-through': todo.done}">{{todo.text}}</span>
+          <input *ngIf="todo.isEditing" [(ngModel)]="todo.text" (blur)="saveEdit(todo, todo.text)" class="flex-grow p-3 rounded-md bg-neutral-100"/>
+        </div>
+        <div class="flex space-x-2">
+          <button *ngIf="!todo.done" (click)="toggleEdit(todo.id)" class="bg-primary text-neutral-50 rounded-md h-[40px] w-[40px] flex justify-center items-center">
+            <span class="material-symbols-outlined">{{ todo.isEditing ? 'save' : 'edit' }}</span>
+          </button>
+          <button *ngIf="!todo.isEditing" (click)="deleteTodo(todo.id)" class="bg-red-500 text-neutral-50 rounded-md h-[40px] w-[40px] flex justify-center items-center">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+        </div>
+      </li>
+    </ul>
+
+  </div> 
+</div>
